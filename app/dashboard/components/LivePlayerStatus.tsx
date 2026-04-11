@@ -143,10 +143,10 @@ export default function LivePlayerStatus({ players }: { players: PlayerStatus[] 
 	const displayPlayers = livePlayers.length > 0 ? livePlayers : players;
 
 	return (
-		<div className="bg-white border border-gray-200 rounded-lg">
-			<div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-				<h2 className="text-lg font-semibold text-gray-900">Live Player Status</h2>
-				<Link href="/players" className="text-sm text-gray-600 hover:text-gray-900 font-medium">
+		<div className="bg-white border border-neutral-200 rounded-md">
+			<div className="px-6 py-4 border-b border-neutral-200 flex items-center justify-between">
+				<h2 className="text-base font-medium text-neutral-900">Live Player Status</h2>
+				<Link href="/players" className="text-xs text-neutral-600 hover:text-neutral-900 font-medium">
 					View All →
 				</Link>
 			</div>

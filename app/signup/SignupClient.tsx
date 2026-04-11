@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -21,74 +22,87 @@ export default function SignupClient() {
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Left Section - Hidden on mobile */}
-      <div className="relative hidden w-1/2 p-12 lg:flex lg:flex-col lg:justify-between">
+      {/* Left Section - Premium Content */}
+      <div className="relative hidden w-1/2 p-16 lg:flex lg:flex-col lg:justify-between bg-neutral-50">
         <div className="flex-1 flex flex-col justify-center">
-          <div className="mb-16">
-            <h2 className="text-5xl font-semibold leading-tight text-gray-900 mb-6">
-              Create your account
-            </h2>
-            <p className="text-lg text-gray-600 max-w-md">
-              Get started with Akoustic Arts and take control of your audio experience.
-            </p>
-          </div>
+          <h2 className="text-5xl font-light leading-tight tracking-tight text-neutral-900 mb-8">
+            Join Akoustic Arts
+          </h2>
+          <p className="text-lg font-light text-neutral-600 max-w-md leading-relaxed mb-16">
+            Professional audio scheduling and broadcasting, simplified for modern teams and venues.
+          </p>
 
-          {/* Steps */}
-          <div className="space-y-6">
-            <div className="flex gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-900 text-white font-semibold text-sm shrink-0">
-                1
+          {/* Features */}
+          <div className="space-y-12">
+            <div>
+              <div className="text-xs font-medium text-neutral-500 uppercase tracking-wide mb-3">
+                Unified Control
               </div>
-              <div className="pt-0.5">
-                <h3 className="font-semibold text-gray-900">Sign up your account</h3>
-                <p className="text-sm text-gray-600 mt-1">Enter your email and create a password</p>
-              </div>
+              <p className="text-sm text-neutral-600">
+                Manage all your players, schedules, and broadcasts from one dashboard.
+              </p>
             </div>
 
-            <div className="flex gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-gray-50 text-gray-700 font-semibold text-sm shrink-0">
-                2
+            <div>
+              <div className="text-xs font-medium text-neutral-500 uppercase tracking-wide mb-3">
+                Real-time Monitoring
               </div>
-              <div className="pt-0.5">
-                <h3 className="font-semibold text-gray-900">Configure workspace</h3>
-                <p className="text-sm text-gray-600 mt-1">Set up your first workspace and players</p>
-              </div>
+              <p className="text-sm text-neutral-600">
+                Live status and instant updates across your entire network.
+              </p>
             </div>
 
-            <div className="flex gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-gray-50 text-gray-700 font-semibold text-sm shrink-0">
-                3
+            <div>
+              <div className="text-xs font-medium text-neutral-500 uppercase tracking-wide mb-3">
+                Enterprise-ready
               </div>
-              <div className="pt-0.5">
-                <h3 className="font-semibold text-gray-900">Start scheduling</h3>
-                <p className="text-sm text-gray-600 mt-1">Begin creating and scheduling broadcasts</p>
-              </div>
+              <p className="text-sm text-neutral-600">
+                Built for professionals who demand reliability and performance.
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Footer note */}
-        <p className="text-sm text-gray-600">
-          Already have an account? <Link href="/signin" className="font-semibold text-gray-900 hover:underline">Sign in</Link>
+        {/* Footer */}
+        <p className="text-xs text-neutral-500">
+          Already have an account? {" "}
+          <Link href="/signin" className="text-neutral-900 font-medium hover:underline">
+            Sign in
+          </Link>
         </p>
       </div>
 
       {/* Right Section - Form */}
-      <div className="flex w-full items-center justify-center px-6 py-12 lg:w-1/2 lg:px-8">
+      <div className="flex w-full items-center justify-center px-8 py-16 lg:w-1/2">
         <div className="w-full max-w-sm">
-          <div className="mb-8">
-            <h1 className="text-3xl font-semibold text-gray-900 mb-2">
-              Sign up
+          {/* Header */}
+          <div className="mb-12">
+            <div className="flex items-center gap-2 mb-8">
+              <div className="relative h-6 w-6 overflow-hidden rounded">
+                <Image
+                  src="/akousticarts.webp"
+                  alt="Akoustic Arts"
+                  fill
+                  sizes="24px"
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-sm font-light tracking-wide text-neutral-600">
+                Akoustic Arts
+              </span>
+            </div>
+            <h1 className="text-4xl font-light leading-tight text-neutral-900 mb-3">
+              Create account
             </h1>
-            <p className="text-gray-600">
-              Enter your details to create your account.
+            <p className="text-sm text-neutral-600">
+              Get started in seconds. All you need is an email.
             </p>
           </div>
 
           {/* OAuth Buttons */}
           <div className="mb-8 grid gap-3">
-            <Button variant="outline" className="h-11 rounded-lg border-gray-300 text-gray-900 hover:bg-gray-50">
-              <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
+            <button className="w-full inline-flex items-center justify-center px-4 py-3 border border-neutral-300 rounded-md text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors">
+              <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                 <path
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                   fill="#4285F4"
@@ -107,100 +121,97 @@ export default function SignupClient() {
                 />
               </svg>
               Google
-            </Button>
-            <Button variant="outline" className="h-11 rounded-lg border-gray-300 text-gray-900 hover:bg-gray-50">
-              <svg
-                className="mr-2 h-5 w-5"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                focusable="false"
-              >
+            </button>
+            <button className="w-full inline-flex items-center justify-center px-4 py-3 border border-neutral-300 rounded-md text-sm font-medium text-neutral-900 hover:bg-neutral-50 transition-colors">
+              <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                 <path
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M12 1.5C6.201 1.5 1.5 6.201 1.5 12c0 4.654 3.016 8.598 7.206 9.985.527.098.72-.229.72-.509 0-.252-.01-1.088-.015-1.973-2.932.637-3.553-1.256-3.553-1.256-.48-1.219-1.172-1.543-1.172-1.543-.958-.655.073-.642.073-.642 1.06.075 1.617 1.089 1.617 1.089.942 1.614 2.472 1.148 3.072.878.095-.683.369-1.149.671-1.413-2.341-.267-4.799-1.171-4.799-5.213 0-1.152.411-2.093 1.086-2.832-.109-.268-.47-1.347.103-2.809 0 0 .884-.283 2.9 1.082A10.084 10.084 0 0 1 12 6.06c.897.004 1.8.122 2.643.357 2.013-1.365 2.895-1.082 2.895-1.082.575 1.462.214 2.541.105 2.809.676.739 1.084 1.68 1.084 2.832 0 4.053-2.463 4.943-4.812 5.205.38.327.72.971.72 1.957 0 1.414-.013 2.553-.013 2.9 0 .282.19.612.727.508C19.49 20.594 22.5 16.652 22.5 12c0-5.799-4.701-10.5-10.5-10.5Z"
-                  fill="currentColor"
                 />
               </svg>
               GitHub
-            </Button>
+            </button>
           </div>
 
           {/* Divider */}
           <div className="relative mb-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
+              <div className="w-full border-t border-neutral-200" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="bg-white px-3 text-gray-600">Or continue with email</span>
+              <span className="bg-white px-3 text-neutral-500 text-xs font-medium">
+                Or email
+              </span>
             </div>
           </div>
 
           {/* Form */}
-          <form className="space-y-5">
-            <div className="grid gap-4 sm:grid-cols-2">
+          <form className="space-y-4">
+            <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label htmlFor="firstName" className="block text-xs font-medium text-neutral-700 mb-2">
                   First name
                 </label>
                 <Input
                   id="firstName"
                   placeholder="Jane"
                   type="text"
-                  className="h-11 rounded-lg"
+                  className="text-sm"
                 />
               </div>
               <div>
-                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label htmlFor="lastName" className="block text-xs font-medium text-neutral-700 mb-2">
                   Last name
                 </label>
                 <Input
                   id="lastName"
                   placeholder="Doe"
                   type="text"
-                  className="h-11 rounded-lg"
+                  className="text-sm"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
-                Email
+              <label htmlFor="email" className="block text-xs font-medium text-neutral-700 mb-2">
+                Email address
               </label>
               <Input
                 id="email"
                 placeholder="jane@example.com"
                 type="email"
-                className="h-11 rounded-lg"
+                className="text-sm"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="password" className="block text-xs font-medium text-neutral-700 mb-2">
                 Password
               </label>
               <Input
                 id="password"
                 placeholder="••••••••"
                 type="password"
-                className="h-11 rounded-lg"
+                className="text-sm"
               />
-              <p className="mt-2 text-sm text-gray-600">
-                Must be at least 8 characters long.
+              <p className="mt-2 text-xs text-neutral-500">
+                Minimum 8 characters. Mix of uppercase, lowercase, and numbers recommended.
               </p>
             </div>
 
-            <Button className="h-11 w-full rounded-lg bg-gray-900 text-white hover:bg-gray-800">
+            <Button className="w-full mt-8 bg-neutral-900 text-white hover:bg-neutral-800 text-sm font-medium py-2">
               Create account
             </Button>
 
-            <p className="text-center text-sm text-gray-600">
-              Already have an account? {" "}
-              <Link
-                href="/signin"
-                className="font-semibold text-gray-900 hover:underline"
-              >
-                Sign in
+            <p className="text-center text-xs text-neutral-600 mt-6">
+              By signing up, you agree to our{" "}
+              <Link href="#" className="text-neutral-900 hover:underline">
+                Terms of Service
+              </Link>
+              {" "}and{" "}
+              <Link href="#" className="text-neutral-900 hover:underline">
+                Privacy Policy
               </Link>
             </p>
           </form>

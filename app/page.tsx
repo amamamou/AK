@@ -3,83 +3,112 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white text-gray-900 py-8">
-      <main className="w-full max-w-2xl px-6 sm:px-8">
-        {/* Header */}
-        <div className="mb-16 flex items-center gap-3">
-          <div className="relative h-8 w-8 overflow-hidden rounded-lg bg-gray-100">
+    <div className="min-h-screen flex flex-col bg-white">
+      {/* Navigation */}
+      <nav className="flex items-center justify-between px-8 py-8 border-b border-neutral-200">
+        <div className="flex items-center gap-3">
+          <div className="relative h-6 w-6 overflow-hidden rounded">
             <Image
               src="/akousticarts.webp"
               alt="Akoustic Arts"
               fill
-              sizes="32px"
+              sizes="24px"
               className="object-contain"
               priority
             />
           </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-600">
-              Akoustic Arts
-            </p>
-          </div>
+          <span className="text-sm font-light tracking-wide text-neutral-900">
+            Akoustic Arts
+          </span>
         </div>
+        <div className="flex items-center gap-6">
+          <Link
+            href="/signin"
+            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors"
+          >
+            Sign in
+          </Link>
+          <Link
+            href="/signup"
+            className="text-sm font-medium text-neutral-900 px-4 py-2 rounded-md hover:bg-neutral-100 transition-colors"
+          >
+            Get started
+          </Link>
+        </div>
+      </nav>
 
-        {/* Main Content */}
-        <section className="mb-16">
-          <div className="mb-8">
-            <span className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-1.5 text-xs font-medium text-gray-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-gray-900" />
-              Coming soon
+      {/* Hero Section */}
+      <main className="flex-1 flex items-center justify-center px-8 py-20">
+        <div className="w-full max-w-3xl">
+          {/* Status Badge */}
+          <div className="mb-12 flex">
+            <span className="text-xs font-medium tracking-wide text-neutral-500 uppercase">
+              Coming Soon
             </span>
           </div>
 
-          <h1 className="mb-6 text-5xl sm:text-6xl font-semibold leading-tight tracking-tight text-gray-900">
-            Your audio control center is on the way
+          {/* Main Heading */}
+          <h1 className="mb-8 text-6xl sm:text-7xl font-light leading-tight tracking-tight text-neutral-900">
+            Your professional audio control center
           </h1>
 
-          <p className="mb-10 max-w-xl text-lg leading-relaxed text-gray-600">
-            Manage players, build schedules, monitor broadcasts, and control your account in one unified workspace. We&apos;re putting the final touches on it now.
+          {/* Subheading */}
+          <p className="mb-12 max-w-2xl text-lg font-light text-neutral-600 leading-relaxed">
+            Manage players, orchestrate broadcasts, and schedule content across your network with one elegant, unified workspace. Built for professionals.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col sm:flex-row gap-4 mb-24">
             <Link
               href="/dashboard"
-              className="inline-flex items-center justify-center rounded-lg bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+              className="inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium text-white bg-neutral-900 rounded-md hover:bg-neutral-800 transition-colors"
             >
-              Go to Dashboard
+              Enter Dashboard
             </Link>
             <Link
-              href="/players"
-              className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+              href="/signup"
+              className="inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium text-neutral-900 border border-neutral-300 rounded-md hover:bg-neutral-50 transition-colors"
             >
-              Manage Players
+              Create Account
             </Link>
           </div>
-        </section>
 
-        {/* Features Grid */}
-        <section className="grid sm:grid-cols-3 gap-8 pt-12 border-t border-gray-200">
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">What you&apos;ll get</h3>
-            <p className="text-sm leading-relaxed text-gray-600">
-              A unified dashboard for players, schedules, broadcasts, and analytics all in one place.
-            </p>
+          {/* Features Grid */}
+          <div className="grid sm:grid-cols-3 gap-16 pt-20 border-t border-neutral-200">
+            <div>
+              <h3 className="mb-3 text-sm font-semibold text-neutral-900 uppercase tracking-wide">
+                Unified
+              </h3>
+              <p className="text-sm text-neutral-600 leading-relaxed">
+                Manage all players, schedules, and broadcasts from a single dashboard.
+              </p>
+            </div>
+            <div>
+              <h3 className="mb-3 text-sm font-semibold text-neutral-900 uppercase tracking-wide">
+                Real-time
+              </h3>
+              <p className="text-sm text-neutral-600 leading-relaxed">
+                Live status monitoring and instant updates across your entire network.
+              </p>
+            </div>
+            <div>
+              <h3 className="mb-3 text-sm font-semibold text-neutral-900 uppercase tracking-wide">
+                Professional
+              </h3>
+              <p className="text-sm text-neutral-600 leading-relaxed">
+                Built for broadcasters, venues, and audio professionals who demand excellence.
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">Current status</h3>
-            <p className="text-sm leading-relaxed text-gray-600">
-              Internal preview in progress. Your data is already live and synced across the platform.
-            </p>
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">Explore the beta</h3>
-            <p className="text-sm leading-relaxed text-gray-600">
-              Use the sidebar to explore Players, Schedule, and Settings while we finalize the experience.
-            </p>
-          </div>
-        </section>
+        </div>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-neutral-200 px-8 py-8">
+        <p className="text-xs text-neutral-500">
+          © {new Date().getFullYear()} Akoustic Arts. Professional audio made simple.
+        </p>
+      </footer>
     </div>
   );
 }

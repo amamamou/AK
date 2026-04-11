@@ -163,32 +163,32 @@ export default function UpcomingBroadcasts({ broadcasts: fallbackBroadcasts }: {
 		[realBroadcasts, fallbackBroadcasts],
 	);
 	return (
-		<div className="bg-white border border-gray-200 rounded-lg">
-			<div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-				<h2 className="text-lg font-semibold text-gray-900">Coming Up</h2>
-				<Link href="/schedule" className="text-sm text-gray-600 hover:text-gray-900 font-medium">
+		<div className="bg-white border border-neutral-200 rounded-md">
+			<div className="px-6 py-4 border-b border-neutral-200 flex items-center justify-between">
+				<h2 className="text-base font-medium text-neutral-900">Coming Up</h2>
+				<Link href="/schedule" className="text-xs text-neutral-600 hover:text-neutral-900 font-medium">
 					View All →
 				</Link>
 			</div>
-			<div className="divide-y divide-gray-100">
+			<div className="divide-y divide-neutral-100">
 				{broadcasts.map((broadcast, i) => (
-					<div key={i} className="p-5 hover:bg-gray-50 transition-colors">
+					<div key={i} className="p-5 hover:bg-neutral-50 transition-colors">
 						<div className="flex items-start justify-between gap-4 mb-2">
 							<div>
-								<p className="text-xs font-medium text-gray-600 uppercase tracking-wide">{broadcast.time}</p>
-								<h4 className="font-semibold text-gray-900 mt-1">{broadcast.title}</h4>
+								<p className="text-xs font-medium text-neutral-600 uppercase tracking-wide">{broadcast.time}</p>
+								<h4 className="font-medium text-neutral-900 mt-1">{broadcast.title}</h4>
 							</div>
-							<span className="text-xs bg-gray-100 text-gray-700 px-2.5 py-1 rounded-md font-medium shrink-0">
+							<span className="text-xs bg-neutral-100 text-neutral-700 px-2.5 py-1 rounded-md font-medium shrink-0">
 								{broadcast.duration}
 							</span>
 						</div>
-						<p className="text-sm text-gray-600">{broadcast.location}</p>
+						<p className="text-sm text-neutral-600">{broadcast.location}</p>
 					</div>
 				))}
 				{broadcasts.length === 0 && (
 					<div className="p-8 text-center">
-						<Calendar size={32} className="mx-auto mb-3 text-gray-400" />
-						<p className="text-sm text-gray-600">No upcoming broadcasts scheduled</p>
+						<Calendar size={32} className="mx-auto mb-3 text-neutral-400" />
+						<p className="text-sm text-neutral-600">No upcoming broadcasts scheduled</p>
 					</div>
 				)}
 			</div>
