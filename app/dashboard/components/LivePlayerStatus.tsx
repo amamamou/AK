@@ -143,67 +143,61 @@ export default function LivePlayerStatus({ players }: { players: PlayerStatus[] 
 	const displayPlayers = livePlayers.length > 0 ? livePlayers : players;
 
 	return (
-		<div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+		<div className="bg-white border border-gray-200 rounded-lg">
 			<div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-				<div className="flex items-center gap-2">
-					<Activity size={18} className="text-gray-700" />
-					<h2 className="text-lg font-semibold text-gray-900">Live Player Status</h2>
-				</div>
+				<h2 className="text-lg font-semibold text-gray-900">Live Player Status</h2>
 				<Link href="/players" className="text-sm text-gray-600 hover:text-gray-900 font-medium">
 					View All →
 				</Link>
 			</div>
-			<div className="p-6 space-y-4">
+			<div className="divide-y divide-gray-100">
 				{displayPlayers.length === 0 && (
-					<p className="text-sm text-gray-500">
-						No players yet. Create your first player from the Players page to see
-							its live status here.
+					<p className="text-sm text-gray-600 p-6">
+						No players yet. Create your first player from the Players page to see its live status here.
 					</p>
 				)}
 				{displayPlayers.map((player, i) => (
 					<div
 						key={i}
-						className="flex items-center gap-4 p-4 bg-gray-50/50 border border-gray-100 rounded-lg hover:border-gray-200 transition-colors"
+						className="p-6 hover:bg-gray-50 transition-colors"
 					>
-						<div className="flex-1">
-							<div className="flex items-center justify-between mb-2">
-								<div>
-									<h4 className="font-medium text-gray-900">{player.name}</h4>
-									<p className="text-xs text-gray-500">{player.player}</p>
-								</div>
-								<div className="flex items-center gap-3">
-									{player.status === "online" ? (
-										<span className="inline-flex items-center gap-2 px-2 py-0.5 rounded-full text-xs bg-emerald-100 text-emerald-700" aria-label="Online">
-											<Wifi size={12} className="text-emerald-600" aria-hidden />
-											<span>Online</span>
-										</span>
-									) : (
-										<span className="inline-flex items-center gap-2 px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-600" aria-label="Offline">
-											<WifiOff size={12} className="text-gray-500" aria-hidden />
-											<span>Offline</span>
-										</span>
-									)}
-								</div>
+						<div className="flex items-center justify-between mb-4">
+							<div>
+								<h4 className="font-semibold text-gray-900">{player.name}</h4>
+								<p className="text-sm text-gray-600 mt-0.5">{player.player}</p>
 							</div>
-							<NowPlaying
-									evt={
-										player.status === "online" && player.current
-											? {
-													id: String(i),
-													title: player.current,
-													duration:
-														player.duration && player.duration > 0
-															? player.duration
-															: 180,
-											}
-										: null
-									}
-									playingProgress={player.progress ?? 0}
-									playlistLength={0}
-									onEmptyClick={() => {}}
-									isPlaying={player.status === "online"}
-							/>
+							<div>
+								{player.status === "online" ? (
+									<span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-900">
+										<span className="h-2 w-2 rounded-full bg-gray-700" />
+										Online
+									</span>
+								) : (
+									<span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-600">
+										<span className="h-2 w-2 rounded-full bg-gray-400" />
+										Offline
+									</span>
+								)}
+							</div>
 						</div>
+						<NowPlaying
+								evt={
+									player.status === "online" && player.current
+										? {
+												id: String(i),
+												title: player.current,
+												duration:
+													player.duration && player.duration > 0
+														? player.duration
+														: 180,
+										}
+									: null
+								}
+								playingProgress={player.progress ?? 0}
+								playlistLength={0}
+								onEmptyClick={() => {}}
+								isPlaying={player.status === "online"}
+						/>
 					</div>
 				))}
 			</div>

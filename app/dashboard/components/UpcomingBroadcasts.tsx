@@ -163,30 +163,32 @@ export default function UpcomingBroadcasts({ broadcasts: fallbackBroadcasts }: {
 		[realBroadcasts, fallbackBroadcasts],
 	);
 	return (
-		<div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+		<div className="bg-white border border-gray-200 rounded-lg">
 			<div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
 				<h2 className="text-lg font-semibold text-gray-900">Coming Up</h2>
-				<Link href="/" className="text-sm text-gray-600 hover:text-gray-900 font-medium">
+				<Link href="/schedule" className="text-sm text-gray-600 hover:text-gray-900 font-medium">
 					View All →
 				</Link>
 			</div>
-			<div className="p-4 space-y-3">
+			<div className="divide-y divide-gray-100">
 				{broadcasts.map((broadcast, i) => (
-					<div key={i} className="p-4 bg-gray-50 border border-gray-100 rounded-lg hover:border-gray-200 transition-colors">
-						<div className="flex items-start justify-between mb-2">
-							<span className="text-2xl font-bold text-gray-900">{broadcast.time}</span>
-							<span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full font-medium">
+					<div key={i} className="p-5 hover:bg-gray-50 transition-colors">
+						<div className="flex items-start justify-between gap-4 mb-2">
+							<div>
+								<p className="text-xs font-medium text-gray-600 uppercase tracking-wide">{broadcast.time}</p>
+								<h4 className="font-semibold text-gray-900 mt-1">{broadcast.title}</h4>
+							</div>
+							<span className="text-xs bg-gray-100 text-gray-700 px-2.5 py-1 rounded-md font-medium shrink-0">
 								{broadcast.duration}
 							</span>
 						</div>
-						<h4 className="font-medium text-gray-900 mb-1">{broadcast.title}</h4>
-						<p className="text-sm text-gray-500">{broadcast.location}</p>
+						<p className="text-sm text-gray-600">{broadcast.location}</p>
 					</div>
 				))}
 				{broadcasts.length === 0 && (
-					<div className="p-8 text-center text-gray-400">
-						<Calendar size={32} className="mx-auto mb-2 opacity-50" />
-						<p className="text-sm">No upcoming broadcasts</p>
+					<div className="p-8 text-center">
+						<Calendar size={32} className="mx-auto mb-3 text-gray-400" />
+						<p className="text-sm text-gray-600">No upcoming broadcasts scheduled</p>
 					</div>
 				)}
 			</div>

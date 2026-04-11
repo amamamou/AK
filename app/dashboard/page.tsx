@@ -12,20 +12,19 @@ export const metadata = {
 
 export default function DashboardPage() {
 	return (
-		<div className="flex-1 overflow-auto bg-gray-50/30">
+		<div className="flex-1 overflow-auto bg-white">
 			<DashboardHeader stats={quickStats} />
 
-			<div className="p-8 ">
-				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+			<div className="p-8">
+				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 					{/* Left Column - 2/3 width */}
-					<div className="lg:col-span-2 space-y-6">
+					<div className="lg:col-span-2 space-y-8">
 						<LivePlayerStatus players={playerStatus} />
-
 						<RecentActivityFeed activities={recentActivity} />
 					</div>
 
 					{/* Right Column - 1/3 width */}
-					<div className="space-y-6">
+					<div className="space-y-8">
 						<UpcomingBroadcasts broadcasts={upcomingBroadcasts} />
 						<QuickActions />
 					</div>

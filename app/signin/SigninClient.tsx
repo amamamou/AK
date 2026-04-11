@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function SignupClient() {
+export default function SigninClient() {
   useEffect(() => {
     if (typeof document === "undefined") return;
     const sidebar = document.querySelector("aside") as HTMLElement | null;
@@ -21,55 +21,28 @@ export default function SignupClient() {
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Left Section - Hidden on mobile */}
+      {/* Left Section */}
       <div className="relative hidden w-1/2 p-12 lg:flex lg:flex-col lg:justify-between">
         <div className="flex-1 flex flex-col justify-center">
           <div className="mb-16">
             <h2 className="text-5xl font-semibold leading-tight text-gray-900 mb-6">
-              Create your account
+              Welcome back
             </h2>
             <p className="text-lg text-gray-600 max-w-md">
-              Get started with Akoustic Arts and take control of your audio experience.
+              Sign in to your account to access your audio control center.
             </p>
           </div>
 
-          {/* Steps */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div className="flex gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-900 text-white font-semibold text-sm shrink-0">
-                1
-              </div>
-              <div className="pt-0.5">
-                <h3 className="font-semibold text-gray-900">Sign up your account</h3>
-                <p className="text-sm text-gray-600 mt-1">Enter your email and create a password</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-gray-50 text-gray-700 font-semibold text-sm shrink-0">
-                2
-              </div>
-              <div className="pt-0.5">
-                <h3 className="font-semibold text-gray-900">Configure workspace</h3>
-                <p className="text-sm text-gray-600 mt-1">Set up your first workspace and players</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-gray-50 text-gray-700 font-semibold text-sm shrink-0">
-                3
-              </div>
-              <div className="pt-0.5">
-                <h3 className="font-semibold text-gray-900">Start scheduling</h3>
-                <p className="text-sm text-gray-600 mt-1">Begin creating and scheduling broadcasts</p>
-              </div>
+              <span className="text-sm text-gray-600">Secure authentication powered by industry-standard encryption</span>
             </div>
           </div>
         </div>
 
         {/* Footer note */}
         <p className="text-sm text-gray-600">
-          Already have an account? <Link href="/signin" className="font-semibold text-gray-900 hover:underline">Sign in</Link>
+          Don&apos;t have an account? <Link href="/signup" className="font-semibold text-gray-900 hover:underline">Create one</Link>
         </p>
       </div>
 
@@ -78,10 +51,10 @@ export default function SignupClient() {
         <div className="w-full max-w-sm">
           <div className="mb-8">
             <h1 className="text-3xl font-semibold text-gray-900 mb-2">
-              Sign up
+              Sign in
             </h1>
             <p className="text-gray-600">
-              Enter your details to create your account.
+              Enter your credentials to access your account.
             </p>
           </div>
 
@@ -138,31 +111,6 @@ export default function SignupClient() {
 
           {/* Form */}
           <form className="space-y-5">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1.5">
-                  First name
-                </label>
-                <Input
-                  id="firstName"
-                  placeholder="Jane"
-                  type="text"
-                  className="h-11 rounded-lg"
-                />
-              </div>
-              <div>
-                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1.5">
-                  Last name
-                </label>
-                <Input
-                  id="lastName"
-                  placeholder="Doe"
-                  type="text"
-                  className="h-11 rounded-lg"
-                />
-              </div>
-            </div>
-
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
                 Email
@@ -185,22 +133,33 @@ export default function SignupClient() {
                 type="password"
                 className="h-11 rounded-lg"
               />
-              <p className="mt-2 text-sm text-gray-600">
-                Must be at least 8 characters long.
-              </p>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <label htmlFor="remember" className="flex items-center gap-2 text-sm text-gray-700">
+                <input
+                  id="remember"
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-gray-300 cursor-pointer"
+                />
+                Remember me
+              </label>
+              <Link href="#" className="text-sm font-medium text-gray-900 hover:underline">
+                Forgot password?
+              </Link>
             </div>
 
             <Button className="h-11 w-full rounded-lg bg-gray-900 text-white hover:bg-gray-800">
-              Create account
+              Sign in
             </Button>
 
             <p className="text-center text-sm text-gray-600">
-              Already have an account? {" "}
+              Don&apos;t have an account? {" "}
               <Link
-                href="/signin"
+                href="/signup"
                 className="font-semibold text-gray-900 hover:underline"
               >
-                Sign in
+                Create one
               </Link>
             </p>
           </form>
