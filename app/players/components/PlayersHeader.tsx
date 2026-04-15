@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import { Plus } from "lucide-react";
+import { Plus, Music } from "lucide-react";
+import Link from "next/link";
 import ViewToggle from "./ViewToggle";
 
 export default function PlayersHeader({
@@ -31,6 +32,14 @@ export default function PlayersHeader({
             {/* Right: Controls */}
             <div className="flex items-center gap-3 shrink-0">
               <ViewToggle view={view} onChange={onToggleView} />
+
+              <Link
+                href="/library"
+                className="inline-flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+              >
+                <Music size={14} />
+                <span className="hidden sm:inline">Library</span>
+              </Link>
 
               <button
                 type="button"
