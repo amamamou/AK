@@ -1,9 +1,5 @@
-import LibraryClient from "./LibraryClient";
-
-export const metadata = {
-  title: "Audio Library",
-};
+import { redirect } from "next/navigation";
 
 export default function LibraryPage() {
-  return <LibraryClient />;
+  redirect("/library/playlists");
 }

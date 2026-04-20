@@ -42,7 +42,15 @@ const navigationGroups = [
   {
     label: "Resources",
     items: [
-      { name: "Audio Library", href: "/library", icon: ListMusic },
+      {
+        name: "Library",
+        href: "/library/playlists",
+        icon: ListMusic,
+        submenu: [
+          { name: "Playlists", href: "/library/playlists" },
+          { name: "All Audio", href: "/library/audio" },
+        ],
+      },
       { name: "Analytics", href: "/analytics", icon: BarChart3 },
     ],
   },
@@ -58,13 +66,14 @@ interface NavItem {
   name: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
+  submenu?: { name: string; href: string }[];
 }
 
 export default function Sidebar() {
   const pathname = usePathname() || "/";
   const router = useRouter();
-  // Use fixed defaults so server and client render the same HTML on first paint.
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [libraryExpanded, setLibraryExpanded] = useState<boolean>(true);
   const [language, setLanguage] = useState<"en" | "fr">("en");
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [userName, setUserName] = useState<string>("Your profile");
@@ -206,7 +215,7 @@ export default function Sidebar() {
     };
   }, [applyUserProfile]);
 
-  // Render navigation groups with section labels
+  // Render navigation groups with section labels and optional submenu
   const renderNavigation = () => {
     return (
       <nav
@@ -228,14 +237,42 @@ export default function Sidebar() {
                 const isActive =
                   pathname === item.href || pathname.startsWith(item.href + "/");
                 const Icon = item.icon;
+                const isLibrary = item.name === "Library";
+                const showSubmenu = isLibrary && libraryExpanded && !collapsed;
+
                 return (
-                  <NavLink
-                    key={item.name}
-                    item={item}
-                    isActive={isActive}
-                    collapsed={collapsed}
-                    Icon={Icon}
-                  />
+                  <div key={item.name}>
+                    <NavLink
+                      item={item}
+                      isActive={isActive}
+                      collapsed={collapsed}
+                      Icon={Icon}
+                      hasSubmenu={!!item.submenu}
+                      isExpanded={libraryExpanded}
+                      onToggleSubmenu={() => setLibraryExpanded(!libraryExpanded)}
+                    />
+                    {showSubmenu && item.submenu && (
+                      <div className="flex flex-col space-y-1 mt-1 ml-4 pl-3 border-l border-gray-200">
+                        {item.submenu.map((subitem) => {
+                          const isSubActive = pathname === subitem.href;
+                          return (
+                            <Link
+                              key={subitem.name}
+                              href={subitem.href}
+                              className={cn(
+                                "text-xs px-3 py-2 rounded-md transition-colors",
+                                isSubActive
+                                  ? "text-gray-900 bg-gray-100 font-medium"
+                                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                              )}
+                            >
+                              {subitem.name}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 );
               })}
             </div>
@@ -537,35 +574,60 @@ function NavLink({
   isActive,
   collapsed,
   Icon,
+  hasSubmenu,
+  isExpanded,
+  onToggleSubmenu,
 }: {
   item: NavItem;
   isActive: boolean;
   collapsed: boolean;
   Icon: React.ComponentType<{ className?: string }>;
+  hasSubmenu?: boolean;
+  isExpanded?: boolean;
+  onToggleSubmenu?: () => void;
 }) {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (hasSubmenu && !collapsed) {
+      e.preventDefault();
+      onToggleSubmenu?.();
+    }
+  };
+
   return (
     <Link
       href={item.href}
+      onClick={handleClick}
       title={collapsed ? item.name : undefined}
       className={cn(
         "group relative flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium",
         "transition-all duration-150 hover:text-gray-900 hover:bg-gray-50",
         isActive ? "text-gray-900" : "text-gray-500",
-        collapsed ? "justify-center" : ""
+        collapsed ? "justify-center" : "",
+        hasSubmenu && !collapsed ? "cursor-pointer" : ""
       )}
     >
       <Icon
         className={cn(
           "h-5 w-5 shrink-0 transition-colors",
-	  "group-hover:text-gray-600",
-	  isActive ? "text-gray-700" : "text-gray-300"
+          "group-hover:text-gray-600",
+          isActive ? "text-gray-700" : "text-gray-300"
         )}
         aria-hidden="true"
       />
       {!collapsed && (
-        <span className="truncate font-medium">
-          {item.name}
-        </span>
+        <div className="flex items-center justify-between flex-1">
+          <span className="truncate font-medium">
+            {item.name}
+          </span>
+          {hasSubmenu && (
+            <ChevronRight
+              className={cn(
+                "h-4 w-4 ml-2 flex-shrink-0 transition-transform",
+                isExpanded ? "rotate-90" : ""
+              )}
+            />
+          )}
+        </div>
       )}
 
       {/* Tooltip for collapsed state */}
