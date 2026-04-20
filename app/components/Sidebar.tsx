@@ -401,30 +401,6 @@ export default function Sidebar() {
           </button>
 
           <div className="h-px w-6 bg-gray-200 my-1" />
-              "transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 text-xs font-bold"
-            )}
-            title={`Switch to ${language === "en" ? "French" : "English"}`}
-            aria-label={`Switch to ${language === "en" ? "French" : "English"}`}
-          >
-            {language === "en" ? "FR" : "EN"}
-          </button>
-
-          <div className="w-8 h-px bg-gray-200" />
-
-          <div className="h-8 w-8 rounded-md bg-gray-100 flex items-center justify-center text-xs font-semibold text-gray-600 overflow-hidden">
-            {userAvatar ? (
-              <Image
-                src={userAvatar}
-                alt={userName}
-                width={32}
-                height={32}
-                className="object-cover"
-                unoptimized
-              />
-            ) : (
-              <span>{userInitials}</span>
-            )}
-          </div>
 
           <button
             type="button"
@@ -441,9 +417,9 @@ export default function Sidebar() {
               }
             }}
             className={cn(
-              "flex items-center justify-center h-8 w-8 rounded-md",
-              "text-gray-500 hover:text-gray-700 hover:bg-gray-100",
-              "transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+              "flex items-center justify-center h-9 w-9 rounded-md",
+              "text-gray-600 hover:text-gray-900 hover:bg-gray-100",
+              "transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-gray-300"
             )}
             title="Sign out"
             aria-label="Sign out"
