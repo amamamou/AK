@@ -9,11 +9,13 @@ export type Playlist = {
   id: string;
   title: string;
   description?: string;
-  duration: number;
   trackCount: number;
-  createdAt: string;
-  isPublic: boolean;
-  tracks: AudioItem[];
+  totalDuration: string;
+  usedInSchedule: boolean;
+  spacesCount: number;
+  lastModified: string;
+  cover?: string; // URL to cover image
+  coverColor?: "indigo" | "blue" | "purple" | "slate" | "gray"; // gradient color preset
 };
 
 export default function PlaylistModal({
@@ -40,11 +42,12 @@ export default function PlaylistModal({
       id: Math.random().toString(36),
       title: newPlaylistName,
       description: newPlaylistDesc,
-      duration: 0,
       trackCount: 0,
-      createdAt: new Date().toISOString(),
-      isPublic: false,
-      tracks: [],
+      totalDuration: "0m",
+      usedInSchedule: false,
+      spacesCount: 0,
+      lastModified: "now",
+      coverColor: "indigo",
     };
 
     onCreatePlaylist?.(playlist);

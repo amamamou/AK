@@ -1,95 +1,69 @@
 "use client";
 
 import React, { useState } from "react";
-import { MoreVertical, Clock, RadioTower, Activity, FileAudio } from "lucide-react";
+import { MoreVertical, FileAudio, Play, Plus as PlusIcon } from "lucide-react";
 import { cn } from "@/utils/cn";
 import { AudioItem } from "./AudioTile";
-
-const categoryColor = {
-  Yoga: "bg-purple-50 text-purple-700 border-purple-100",
-  Meditation: "bg-blue-50 text-blue-700 border-blue-100",
-  Lobby: "bg-amber-50 text-amber-700 border-amber-100",
-  Retail: "bg-orange-50 text-orange-700 border-orange-100",
-};
-
-function getUsageColor(usageCount: number) {
-  if (usageCount > 15) return "border-l-emerald-500";
-  if (usageCount > 8) return "border-l-blue-500";
-  return "border-l-gray-300";
-}
-
-function getUsageLabel(usageCount: number) {
-  if (usageCount > 15) return "Frequently used";
-  if (usageCount > 8) return "Regularly used";
-  if (usageCount > 0) return "Occasionally used";
-  return "Never used";
-}
 
 function AudioListRow({
   audio,
   onAction,
 }: {
   audio: AudioItem;
-  onAction?: (action: "play" | "edit" | "delete" | "addToPlaylist", audioId: string) => void;
+  onAction?: (action: "play" | "addToPlaylist", audioId: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div
-      className={cn(
-        "flex items-center gap-4 rounded-lg border border-gray-200 bg-white px-4 py-3 hover:shadow-md hover:border-gray-300 transition-all duration-150 cursor-pointer group relative"
-      )}
-    >
-      {/* Left border */}
-      <div className={cn("absolute left-0 top-0 bottom-0 w-1 rounded-l-lg", getUsageColor(audio.usageCount))} />
-
-      {/* Left block: Icon + Title + Category */}
-      <div className="flex items-center gap-3 min-w-0 flex-1 pl-1">
-        <div
-          className={cn(
-            "p-2 rounded-lg border flex-shrink-0",
-            categoryColor[audio.category as keyof typeof categoryColor] || "bg-gray-50 border-gray-100"
-          )}
-        >
-          <FileAudio size={16} className="text-gray-600" />
+    <div className="group relative flex items-center gap-4 rounded-lg border border-gray-200 bg-white px-4 py-3 hover:shadow-md hover:border-gray-300 transition-all duration-200">
+      {/* Icon + Title */}
+      <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0 group-hover:bg-gray-200 transition-colors">
+        <FileAudio size={18} className="text-gray-600" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-sm font-medium text-gray-900 truncate" title={audio.title}>
+          {audio.title}
         </div>
-        <div className="min-w-0 flex-1">
-          <div className="text-sm font-medium text-gray-900 truncate" title={audio.title}>
-            {audio.title}
+        {audio.spacesCount > 0 && (
+          <div className="mt-0.5 text-xs text-gray-500">
+            {audio.spacesCount} space{audio.spacesCount !== 1 ? "s" : ""}
           </div>
-          <div className="mt-0.5 flex items-center gap-2 text-xs text-gray-500">
-            <span className="font-medium text-gray-600">{audio.category}</span>
-            <span>•</span>
-            <span>{getUsageLabel(audio.usageCount)}</span>
-          </div>
-        </div>
+        )}
       </div>
 
-      {/* Right block: Metadata + Actions */}
-      <div className="flex items-center gap-3 text-xs text-gray-600 flex-shrink-0">
-        <div className="flex items-center gap-1.5">
-          <span className="font-medium text-gray-700">{audio.duration}</span>
-          <span className="text-gray-400">•</span>
-          <span>
-            {audio.spacesCount} {audio.spacesCount === 1 ? "space" : "spaces"}
-          </span>
-          {audio.isScheduled && (
-            <>
-              <span className="text-gray-400">•</span>
-              <span className="inline-flex items-center gap-1 text-green-600 font-medium">
-                <RadioTower size={10} />
-                Scheduled
-              </span>
-            </>
-          )}
-        </div>
+      {/* Duration */}
+      <div className="text-sm text-gray-600 flex-shrink-0">{audio.duration}</div>
+
+      {/* Actions - hidden until hover */}
+      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onAction?.("play", audio.id);
+          }}
+          className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded transition-all"
+          title="Play"
+        >
+          <Play size={16} className="fill-current" />
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onAction?.("addToPlaylist", audio.id);
+          }}
+          className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded transition-all"
+          title="Add to playlist"
+        >
+          <PlusIcon size={16} />
+        </button>
         <div className="relative">
           <button
             onClick={(e) => {
               e.stopPropagation();
               setMenuOpen(!menuOpen);
             }}
-            className="text-gray-400 hover:text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity p-1.5 hover:bg-gray-100 rounded"
+            className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded transition-all"
+            aria-label="More options"
           >
             <MoreVertical size={16} />
           </button>
@@ -97,14 +71,14 @@ function AudioListRow({
           {menuOpen && (
             <div
               onClick={(e) => e.stopPropagation()}
-              className="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg"
+              className="absolute right-0 top-full mt-1 z-50 w-40 overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg"
             >
               <button
                 onClick={() => {
                   setMenuOpen(false);
                   onAction?.("play", audio.id);
                 }}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Play
               </button>
@@ -113,28 +87,9 @@ function AudioListRow({
                   setMenuOpen(false);
                   onAction?.("addToPlaylist", audio.id);
                 }}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Add to Playlist
-              </button>
-              <div className="h-px bg-gray-100" />
-              <button
-                onClick={() => {
-                  setMenuOpen(false);
-                  onAction?.("edit", audio.id);
-                }}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => {
-                  setMenuOpen(false);
-                  onAction?.("delete", audio.id);
-                }}
-                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-              >
-                Delete
               </button>
             </div>
           )}
@@ -149,7 +104,7 @@ export default function AudioList({
   onAudioAction,
 }: {
   items: AudioItem[];
-  onAudioAction?: (action: "play" | "edit" | "delete" | "addToPlaylist", audioId: string) => void;
+  onAudioAction?: (action: "play" | "addToPlaylist", audioId: string) => void;
 }) {
   return (
     <div className="space-y-2">

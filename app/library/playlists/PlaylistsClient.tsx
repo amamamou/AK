@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Plus, Music } from "lucide-react";
+import { useRouter } from "next/navigation";
 import PlaylistCard from "../components/PlaylistCard";
 import PlaylistModal from "../components/PlaylistModal";
 import type { Playlist } from "../components/PlaylistModal";
@@ -11,35 +12,46 @@ const samplePlaylists: Playlist[] = [
   {
     id: "p1",
     title: "Morning Yoga",
+    description: "Energizing flows to start your day",
     trackCount: 3,
     totalDuration: "180m",
     usedInSchedule: true,
     spacesCount: 2,
     lastModified: "2 days ago",
+    coverColor: "indigo",
   },
   {
     id: "p2",
     title: "Evening Relaxation",
+    description: "Calm and soothing soundscapes",
     trackCount: 5,
     totalDuration: "300m",
     usedInSchedule: true,
     spacesCount: 3,
     lastModified: "1 week ago",
+    coverColor: "blue",
   },
   {
     id: "p3",
     title: "Meditation Session",
+    description: "Deep meditation and mindfulness",
     trackCount: 4,
     totalDuration: "240m",
     usedInSchedule: false,
     spacesCount: 0,
     lastModified: "3 days ago",
+    coverColor: "purple",
   },
 ];
 
 export default function LibraryPlaylistsClient() {
+  const router = useRouter();
   const [playlistModalOpen, setPlaylistModalOpen] = useState(false);
   const [playlists, setPlaylists] = useState<Playlist[]>(samplePlaylists);
+
+  const handlePlaylistClick = (playlistId: string) => {
+    router.push(`/library/playlists/${playlistId}`);
+  };
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-white">
@@ -93,11 +105,12 @@ export default function LibraryPlaylistsClient() {
               <div className="text-xs text-gray-500 font-medium uppercase tracking-wide">
                 {playlists.length} {playlists.length === 1 ? "playlist" : "playlists"}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {playlists.map((playlist) => (
                   <PlaylistCard
                     key={playlist.id}
                     playlist={playlist}
+                    onClick={handlePlaylistClick}
                     onPlay={(id) => console.log("[v0] Playing playlist:", id)}
                     onEdit={(id) => console.log("[v0] Editing playlist:", id)}
                     onDelete={(id) => {
