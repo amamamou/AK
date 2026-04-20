@@ -128,13 +128,9 @@ export default function LibraryPlaylistsClient() {
       <PlaylistModal
         open={playlistModalOpen}
         onClose={() => setPlaylistModalOpen(false)}
-        playlists={playlists}
         onCreatePlaylist={(playlist) => {
           setPlaylists((prev) => [...prev, playlist]);
           console.log("[v0] Playlist created:", playlist);
-        }}
-        onAddToPlaylist={(playlistId, trackId) => {
-          console.log("[v0] Added track to playlist:", playlistId, trackId);
         }}
       />
     </div>
