@@ -30,36 +30,21 @@ type StoredUserProfile = {
   avatar?: string | null;
 };
 
-const navigationGroups = [
+const navigationItems = [
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Schedule", href: "/schedule", icon: CalendarDays },
+  { name: "Players", href: "/players", icon: Speaker },
   {
-    label: "Main",
-    items: [
-      { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-      { name: "Schedule", href: "/schedule", icon: CalendarDays },
-      { name: "Players", href: "/players", icon: Speaker },
+    name: "Library",
+    href: "/library/playlists",
+    icon: ListMusic,
+    submenu: [
+      { name: "Playlists", href: "/library/playlists" },
+      { name: "All Audio", href: "/library/audio" },
     ],
   },
-  {
-    label: "Resources",
-    items: [
-      {
-        name: "Library",
-        href: "/library/playlists",
-        icon: ListMusic,
-        submenu: [
-          { name: "Playlists", href: "/library/playlists" },
-          { name: "All Audio", href: "/library/audio" },
-        ],
-      },
-      { name: "Analytics", href: "/analytics", icon: BarChart3 },
-    ],
-  },
-  {
-    label: "System",
-    items: [
-      { name: "Settings", href: "/settings", icon: Settings },
-    ],
-  },
+  { name: "Analytics", href: "/analytics", icon: BarChart3 },
+  { name: "Settings", href: "/settings", icon: Settings },
 ];
 
 interface NavItem {
@@ -215,69 +200,56 @@ export default function Sidebar() {
     };
   }, [applyUserProfile]);
 
-  // Render navigation groups with section labels and optional submenu
+  // Render navigation with modern pill-style active states
   const renderNavigation = () => {
     return (
       <nav
-        className="flex flex-1 flex-col space-y-6 py-2"
+        className="flex flex-1 flex-col space-y-1 py-2"
         role="navigation"
         aria-label="Main navigation"
       >
-        {navigationGroups.map((group) => (
-          <div key={group.label} className="flex flex-col space-y-2">
-            {!collapsed && (
-              <div className="px-3 py-2">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                  {group.label}
-                </p>
-              </div>
-            )}
-            <div className="flex flex-col space-y-1">
-              {group.items.map((item) => {
-                const isActive =
-                  pathname === item.href || pathname.startsWith(item.href + "/");
-                const Icon = item.icon;
-                const isLibrary = item.name === "Library";
-                const showSubmenu = isLibrary && libraryExpanded && !collapsed;
+        {navigationItems.map((item) => {
+          const isActive =
+            pathname === item.href || pathname.startsWith(item.href + "/");
+          const Icon = item.icon;
+          const isLibrary = item.name === "Library";
+          const showSubmenu = isLibrary && libraryExpanded && !collapsed;
 
-                return (
-                  <div key={item.name}>
-                    <NavLink
-                      item={item}
-                      isActive={isActive}
-                      collapsed={collapsed}
-                      Icon={Icon}
-                      hasSubmenu={!!item.submenu}
-                      isExpanded={libraryExpanded}
-                      onToggleSubmenu={() => setLibraryExpanded(!libraryExpanded)}
-                    />
-                    {showSubmenu && item.submenu && (
-                      <div className="flex flex-col space-y-1 mt-1 ml-4 pl-3 border-l border-gray-200">
-                        {item.submenu.map((subitem) => {
-                          const isSubActive = pathname === subitem.href;
-                          return (
-                            <Link
-                              key={subitem.name}
-                              href={subitem.href}
-                              className={cn(
-                                "text-xs px-3 py-2 rounded-md transition-colors",
-                                isSubActive
-                                  ? "text-gray-900 bg-gray-100 font-medium"
-                                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                              )}
-                            >
-                              {subitem.name}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+          return (
+            <div key={item.name}>
+              <NavLink
+                item={item}
+                isActive={isActive}
+                collapsed={collapsed}
+                Icon={Icon}
+                hasSubmenu={!!item.submenu}
+                isExpanded={libraryExpanded}
+                onToggleSubmenu={() => setLibraryExpanded(!libraryExpanded)}
+              />
+              {showSubmenu && item.submenu && (
+                <div className="flex flex-col space-y-1 mt-2 ml-2">
+                  {item.submenu.map((subitem) => {
+                    const isSubActive = pathname === subitem.href;
+                    return (
+                      <Link
+                        key={subitem.name}
+                        href={subitem.href}
+                        className={cn(
+                          "text-xs px-3 py-2 rounded-md transition-colors duration-150 ml-8",
+                          isSubActive
+                            ? "text-gray-900 font-medium bg-gray-100"
+                            : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                        )}
+                      >
+                        {subitem.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </nav>
     );
   };
@@ -286,85 +258,68 @@ export default function Sidebar() {
   const renderBottomSection = () => {
     if (!collapsed) {
       return (
-        <div className="flex flex-col gap-4">
-          {/* Settings Section */}
-          <div className="flex flex-col gap-3 border-t border-gray-200 pt-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Languages className="h-4 w-4 text-gray-500" />
-                <span className="text-xs font-medium text-gray-700">Language</span>
-              </div>
-              <div className="inline-flex rounded-sm border border-gray-200 bg-gray-50">
-                <button
-                  type="button"
-                  onClick={() => handleLanguageChange("en")}
-                  className={cn(
-                    "px-2.5 py-1 text-xs font-medium transition-all",
-                    language === "en"
-                      ? "bg-white text-gray-900 border-r border-gray-200"
-                      : "text-gray-500 hover:text-gray-700"
-                  )}
-                  aria-pressed={language === "en"}
-                >
-                  EN
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleLanguageChange("fr")}
-                  className={cn(
-                    "px-2.5 py-1 text-xs font-medium transition-all",
-                    language === "fr"
-                      ? "bg-white text-gray-900"
-                      : "text-gray-500 hover:text-gray-700"
-                  )}
-                  aria-pressed={language === "fr"}
-                >
-                  FR
-                </button>
-              </div>
-            </div>
+        <div className="flex flex-col gap-3">
+          {/* Theme + Language Controls */}
+          <div className="flex items-center justify-between gap-2 px-2">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className={cn(
+                "flex items-center justify-center h-9 w-9 rounded-md",
+                "text-gray-600 hover:text-gray-900 hover:bg-gray-100",
+                "transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-gray-300"
+              )}
+              title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+              aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+            >
+              {theme === "light" ? (
+                <Moon className="h-5 w-5" />
+              ) : (
+                <SunMedium className="h-5 w-5" />
+              )}
+            </button>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {theme === "light" ? (
-                  <SunMedium className="h-4 w-4 text-gray-500" />
-                ) : (
-                  <Moon className="h-4 w-4 text-gray-500" />
-                )}
-                <span className="text-xs font-medium text-gray-700">Theme</span>
-              </div>
+            <div className="flex items-center gap-1 bg-gray-100 rounded-md p-1">
               <button
                 type="button"
-                onClick={toggleTheme}
+                onClick={() => handleLanguageChange("en")}
                 className={cn(
-                  "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
-                  theme === "light" ? "bg-gray-200" : "bg-gray-700"
+                  "px-2 py-1.5 text-xs font-medium rounded transition-all duration-150",
+                  language === "en"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900"
                 )}
-                role="switch"
-                aria-checked={theme === "dark"}
-                aria-label="Toggle dark mode"
+                aria-pressed={language === "en"}
               >
-                <span
-                  className={cn(
-                    "inline-block h-4 w-4 transform rounded-full bg-white transition-transform",
-                    theme === "light" ? "translate-x-1" : "translate-x-6"
-                  )}
-                />
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => handleLanguageChange("fr")}
+                className={cn(
+                  "px-2 py-1.5 text-xs font-medium rounded transition-all duration-150",
+                  language === "fr"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900"
+                )}
+                aria-pressed={language === "fr"}
+              >
+                FR
               </button>
             </div>
           </div>
 
           {/* User Profile Section */}
-          <div className="border-t border-gray-200 pt-3">
-            <div className="flex items-center justify-between gap-2 rounded-lg bg-gray-50 p-2 hover:bg-gray-100 transition-colors cursor-default">
+          <div className="pt-2 border-t border-gray-200">
+            <div className="flex items-center justify-between gap-2 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors duration-150 cursor-default group">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center text-xs font-semibold text-gray-600 shrink-0 overflow-hidden">
+                <div className="h-9 w-9 rounded-md bg-gray-200 flex items-center justify-center text-xs font-semibold text-gray-600 shrink-0 overflow-hidden flex-shrink-0">
                   {userAvatar ? (
                     <Image
                       src={userAvatar}
                       alt={userName}
-                      width={32}
-                      height={32}
+                      width={36}
+                      height={36}
                       className="object-cover"
                       unoptimized
                     />
@@ -397,8 +352,8 @@ export default function Sidebar() {
                 }}
                 className={cn(
                   "flex items-center justify-center h-7 w-7 rounded-md",
-                  "text-gray-500 hover:text-gray-700 hover:bg-white",
-                  "transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+                  "text-gray-400 group-hover:text-gray-700 group-hover:bg-gray-100",
+                  "transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-gray-300 opacity-0 group-hover:opacity-100"
                 )}
                 title="Sign out"
                 aria-label="Sign out"
@@ -412,22 +367,22 @@ export default function Sidebar() {
     } else {
       // Collapsed state - vertical icon stack
       return (
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-2">
           <button
             type="button"
             onClick={toggleTheme}
             className={cn(
-              "flex items-center justify-center h-8 w-8 rounded-md",
-              "text-gray-500 hover:text-gray-700 hover:bg-gray-100",
-              "transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+              "flex items-center justify-center h-9 w-9 rounded-md",
+              "text-gray-600 hover:text-gray-900 hover:bg-gray-100",
+              "transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-gray-300"
             )}
             title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
             aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
           >
             {theme === "light" ? (
-              <Moon className="h-4 w-4" />
+              <Moon className="h-5 w-5" />
             ) : (
-              <SunMedium className="h-4 w-4" />
+              <SunMedium className="h-5 w-5" />
             )}
           </button>
 
@@ -435,8 +390,17 @@ export default function Sidebar() {
             type="button"
             onClick={() => handleLanguageChange(language === "en" ? "fr" : "en")}
             className={cn(
-              "flex items-center justify-center h-8 w-8 rounded-md",
-              "text-gray-500 hover:text-gray-700 hover:bg-gray-100",
+              "flex items-center justify-center h-9 w-9 rounded-md",
+              "text-gray-600 hover:text-gray-900 hover:bg-gray-100",
+              "transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-gray-300"
+            )}
+            title={`Switch to ${language === "en" ? "FR" : "EN"}`}
+            aria-label={`Switch to ${language === "en" ? "FR" : "EN"}`}
+          >
+            <span className="text-xs font-semibold">{language === "en" ? "FR" : "EN"}</span>
+          </button>
+
+          <div className="h-px w-6 bg-gray-200 my-1" />
               "transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 text-xs font-bold"
             )}
             title={`Switch to ${language === "en" ? "French" : "English"}`}
@@ -494,7 +458,7 @@ export default function Sidebar() {
   return (
     <aside
       className={cn(
-        "flex h-full flex-col border-r border-gray-200 bg-white",
+        "flex h-full flex-col border-r border-gray-200 bg-gray-50",
         collapsed ? "w-20" : "w-64",
         "transition-all duration-300 ease-in-out",
         "overflow-visible z-50 relative"
@@ -568,7 +532,7 @@ export default function Sidebar() {
   );
 }
 
-// NavLink Component
+// NavLink Component with modern pill-style design
 function NavLink({
   item,
   isActive,
@@ -599,30 +563,44 @@ function NavLink({
       onClick={handleClick}
       title={collapsed ? item.name : undefined}
       className={cn(
-        "group relative flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium",
-        "transition-all duration-150 hover:text-gray-900 hover:bg-gray-50",
-        isActive ? "text-gray-900" : "text-gray-500",
-        collapsed ? "justify-center" : "",
+        "group relative flex items-center gap-3 px-2 py-1.5 text-sm font-medium rounded-lg",
+        "transition-all duration-150",
+        isActive
+          ? "bg-gray-900 text-white shadow-sm"
+          : "text-gray-700 hover:text-gray-900 hover:bg-gray-100",
+        collapsed ? "justify-center px-2" : "",
         hasSubmenu && !collapsed ? "cursor-pointer" : ""
       )}
     >
-      <Icon
+      {/* Icon Container */}
+      <div
         className={cn(
-          "h-5 w-5 shrink-0 transition-colors",
-          "group-hover:text-gray-600",
-          isActive ? "text-gray-700" : "text-gray-300"
+          "flex items-center justify-center h-8 w-8 rounded-md flex-shrink-0",
+          "transition-all duration-150",
+          isActive
+            ? "bg-white/20"
+            : "bg-gray-100 group-hover:bg-gray-200"
         )}
-        aria-hidden="true"
-      />
+      >
+        <Icon
+          className={cn(
+            "h-5 w-5 transition-colors",
+            isActive ? "text-white" : "text-gray-600 group-hover:text-gray-900"
+          )}
+          aria-hidden="true"
+        />
+      </div>
+
+      {/* Label and chevron */}
       {!collapsed && (
-        <div className="flex items-center justify-between flex-1">
+        <div className="flex items-center justify-between flex-1 min-w-0">
           <span className="truncate font-medium">
             {item.name}
           </span>
           {hasSubmenu && (
             <ChevronRight
               className={cn(
-                "h-4 w-4 ml-2 flex-shrink-0 transition-transform",
+                "h-4 w-4 ml-2 flex-shrink-0 transition-transform duration-200",
                 isExpanded ? "rotate-90" : ""
               )}
             />
@@ -634,7 +612,7 @@ function NavLink({
       {collapsed && (
         <span
           className={cn(
-            "pointer-events-none absolute left-20 top-1/2 -translate-y-1/2",
+            "pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3",
             "whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1.5",
             "font-medium opacity-0 group-hover:opacity-100",
             "transition-opacity duration-200 z-50"
